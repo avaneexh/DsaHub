@@ -1,5 +1,6 @@
 import express from "express";
 import  dotenv  from "dotenv";
+import authRoutes from "./Routes/auth.routes.js";
 
 
 dotenv.config();
@@ -7,6 +8,13 @@ dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+
+app.get("/", (req, res) =>{
+    res.send("Hello From DsaHub🔥🔥")
+})
+
+app.use("/api/v1/auth", authRoutes);
 
 
 
