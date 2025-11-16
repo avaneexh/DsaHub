@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser"
 
 
 import authRoutes from "./Routes/auth.routes.js";
+import problemRoutes from "./Routes/problem.routes.js";
 
 
 dotenv.config();
@@ -19,6 +20,8 @@ app.get("/", (req, res) =>{
 })
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/problems", problemRoutes);
+
 
 
 
