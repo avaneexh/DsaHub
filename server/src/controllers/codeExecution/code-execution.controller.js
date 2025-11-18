@@ -1,4 +1,4 @@
-import { getJudge0LanguageId, poolBatchResults, submitBatch } from "../../libs/judge0.lib.js";
+import { getJudge0LanguageId, poolBatchResults, submitBatch, getLanguageName } from "../../libs/judge0.lib.js";
 
 import { db } from "../../libs/db.js";
 
@@ -41,7 +41,7 @@ export const executeCode = async (req, res) => {
     const tokens = submitResponse.map((res) => res.token);
 
     // Poll for results
-    const results = await pollBatchResults(tokens);
+    const results = await poolBatchResults(tokens);
 
     console.log("Result ---------");
     console.log(results);
