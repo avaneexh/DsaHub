@@ -7,7 +7,7 @@ const problemRoutes = express.Router();
 
 problemRoutes.post("/createProblem", authMiddleware, checkAdmin, createProblem);
 problemRoutes.get("/getAllProblem", authMiddleware, getProblem);
-problemRoutes.get("/getProblem/:id", authMiddleware, getProblemById);
+problemRoutes.get("/getProblemById/:id", authMiddleware, getProblemById);
 problemRoutes.put("/editProblem/:id", authMiddleware, editProblem);
 problemRoutes.delete("/deleteProblem/:id", authMiddleware, checkAdmin, deleteProblem);
 problemRoutes.get("/getSolvedProblem", authMiddleware, getSolvedProblem);
