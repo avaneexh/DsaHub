@@ -1,5 +1,5 @@
 import { db } from "../../libs/db.js";
-import { getJudge0LanguageId, poolBatchResults } from "../../libs/judge0.lib.js";
+import { getJudge0LanguageId, poolBatchResults, submitBatch } from "../../libs/judge0.lib.js";
 
 export const createProblem = async(req, res) => {
   const {title, description, difficulty, tags, examples, constraints, testCases, codeSnippets, referenceSolutions, editorial, hints} = req.body;
@@ -10,7 +10,7 @@ export const createProblem = async(req, res) => {
       })
     }
 
-    for(const [language, solutionCode] of objectEnumValues.entries(referenceSolutions)){
+    for(const [language, solutionCode] of Object.entries(referenceSolutions)){
       const languageId = getJudge0LanguageId(language);
 
       if(!languageId){
@@ -34,8 +34,9 @@ export const createProblem = async(req, res) => {
 
       for(let i = 0; i < results.length; i++){
         const result = results[i];
+        console.log("Result-----", result);
         if(result.status.id !==3){
-          return res.ststus(400).json({message:`testcase ${i+1} failed for language ${language}`})
+          return res.status(400).json({message:`testcase ${i+1} failed for language ${language}`})
         }
       }
     }
@@ -50,7 +51,7 @@ export const createProblem = async(req, res) => {
         testCases,
         codeSnippets,
         referenceSolutions,
-        userId:req.user.userId,
+        userId:req.user.id,
       }
     })
       
@@ -64,11 +65,22 @@ export const createProblem = async(req, res) => {
       })
   }    
 }
-export const getProblem = async(req, res) => {
-  const { id } = req.query.id
-}
-export const getProblemById = async(req, res) => {
 
+export const getProblem = async(req, res) => {
+  try {
+    const problems = await db.problem.findMany();
+    if(!problems){
+      return res.status(404).json({message:"No problems found"})
+    }
+    return res.status(200).json({problems, message:"Problem fetched successfully"})
+
+  } catch (error) {
+     return res.status(500).json({message:"error in getting problems"})
+  }
+}
+
+export const getProblemById = async(req, res) => {
+  const { id } = req.query.id
 }
 export const editProblem = async(req, res) => {
 
