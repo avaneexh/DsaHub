@@ -7,15 +7,11 @@ import {  Eye, EyeOff } from "lucide-react"
 // import { siteName, logo } from "../constants"; // uncomment if you export siteName/logo
 // import useAuthStore from "../stores/useAuthStore"; // uncomment to use your real auth store
 
-/* -----------------------------
-   Validation schema (zod)
-   - password: min 6, upper, lower, digit, special
-   - confirmPassword must match
-   ----------------------------- */
+
 const SignUpSchema = z
   .object({
     name: z.string().min(3, "Name is required"),
-    email: z.string().email("Invalid email address"),
+    email: z.string().email(4, "Invalid email address"),
     password: z
       .string()
       .min(6, "Password must be at least 6 characters long")
@@ -33,13 +29,8 @@ const SignUpSchema = z
 export default function SignUp() {
   // UI toggles
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Theme: true = dark, false = light. Persisted to localStorage.
   const [isDark, setIsDark] = useState(true);
-
-  console.log("Is dark", isDark);
-  
 
   const [isSigningUp, setIsSigningUp] = useState(false);
   const signUp = async (data) => {
@@ -64,11 +55,11 @@ export default function SignUp() {
     resolver: zodResolver(SignUpSchema),
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (payload) => {
     try {
-      await signUp(data);
+      await signUp(payload);
       navigate("/login");
-      console.log("sign up data", data);
+      console.log("sign up payload", payload);
     } catch (err) {
       console.error("Sign up error:", err);
     }
@@ -83,7 +74,7 @@ export default function SignUp() {
       localStorage.setItem("prefers-dark", JSON.stringify(isDark));
     } catch {
       // ignore
-    }
+    }  
   }, [isDark]);
 
 
@@ -209,6 +200,7 @@ export default function SignUp() {
                   />
                   <button
                     type="button"
+                    onMouseDown={(e) => e.preventDefault()}
                     onClick={() => setShowPassword((s) => !s)}
                     className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-md
                         bg-neutral-100/40 dark:bg-white/10 border border-neutral-200 dark:border-neutral-700
@@ -245,6 +237,7 @@ export default function SignUp() {
                   />
                   <button
                     type="button"
+                    onMouseDown={(e) => e.preventDefault()}
                     onClick={() => setShowPassword((s) => !s)}
                     className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-md
                         bg-neutral-100/40 dark:bg-white/10 border border-neutral-200 dark:border-neutral-700
@@ -275,7 +268,7 @@ export default function SignUp() {
                   "
                 >
                   {isSigningUp ? "Creating..." : "Sign Up"}
-                </button>
+                </button> 
               </div>
 
               {/* footer links */}
