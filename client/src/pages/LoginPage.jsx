@@ -4,44 +4,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import {  Eye, EyeOff } from "lucide-react"
-// import { siteName, logo } from "../constants"; // uncomment if you export siteName/logo
-// import useAuthStore from "../stores/useAuthStore"; // uncomment to use your real auth store
+import { useAuthStore } from "../store/useAuthStore";
 
 
-const loginSchema = z
-  .object({
-    email: z.string().email(4, "Invalid email address"),
-    password: z
-      .string()
-      .min(6, "Password must be at least 6 characters long")
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
-        "Password must contain upper, lower, number and special character"
-      ),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long")
+});
 
 export default function Login() {
-  // UI toggles
+
   const [showPassword, setShowPassword] = useState(false);
 
   const [isDark, setIsDark] = useState(true);
-
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const login = async (data) => {
-    // Replace this with: await signUp(data) from your auth store
-    setIsLoggingIn(true);
-    try {
-      // fake network delay
-      await new Promise((r) => setTimeout(r, 700));
-      return { ok: true };
-    } finally {
-      setIsLoggingIn(false);
-    }
-  };
+  const { login, isLoggingIn } = useAuthStore();
 
   const navigate = useNavigate();
 
@@ -55,11 +31,12 @@ export default function Login() {
 
   const onSubmit = async (payload) => {
     try {
+      console.log("sign in payload", payload);
       await login(payload);
+      console.log("sign in payload", payload);
       navigate("/");
-      console.log("sign up payload", payload);
     } catch (err) {
-      console.error("Sign up error:", err);
+      console.error("Sign in error:", err);
     }
   };
 

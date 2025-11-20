@@ -4,9 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import {  Eye, EyeOff } from "lucide-react"
-// import { siteName, logo } from "../constants"; // uncomment if you export siteName/logo
-// import useAuthStore from "../stores/useAuthStore"; // uncomment to use your real auth store
-
+import { useAuthStore } from "../store/useAuthStore";
 
 const SignUpSchema = z
   .object({
@@ -30,20 +28,10 @@ export default function SignUp() {
   // UI toggles
   const [showPassword, setShowPassword] = useState(false);
 
+  const { signUp, isSigningUp } = useAuthStore();
+
   const [isDark, setIsDark] = useState(true);
 
-  const [isSigningUp, setIsSigningUp] = useState(false);
-  const signUp = async (data) => {
-    // Replace this with: await signUp(data) from your auth store
-    setIsSigningUp(true);
-    try {
-      // fake network delay
-      await new Promise((r) => setTimeout(r, 700));
-      return { ok: true };
-    } finally {
-      setIsSigningUp(false);
-    }
-  };
 
   const navigate = useNavigate();
 
