@@ -1,17 +1,12 @@
 import React, { useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
-// import logo from "../../public";
-// import { useStreak } from "../hooks/useStreak";
-// import { useSubmissionStore } from "../store/useSubmissionStore";
-// import Switch from "./Switch";
+
 
 export const Navbar = () => {
   const { authUser, logout } = useAuthStore();
   const isAdmin = authUser?.role === "ADMIN";
   const navigate = useNavigate();
-//   const { submissions, getAllSubmissions } = useSubmissionStore();
-//   const { currentStreak } = useStreak(submissions);
 
   useEffect(() => {
     // keep alt+a admin shortcut
@@ -68,18 +63,6 @@ export const Navbar = () => {
 
           {/* right: controls */}
           <div className="flex items-center gap-3">
-            {/* Theme switch (your Switch component) */}
-            {/* <div className="flex items-center">
-              <Switch />
-            </div> */}
-
-            {/* streak - hide on very small screens */}
-            {/* {!isAdmin && (
-              <div className="hidden md:inline-flex items-center text-sm text-neutral-600 dark:text-neutral-300">
-                <span className="neue-reg">{currentStreak} day streak 🔥</span>
-              </div>
-            )} */}
-
             {/* admin add problem */}
             {isAdmin && (
               <Link
@@ -112,7 +95,6 @@ export const Navbar = () => {
             </button>
 
 
-            {/* mobile menu fallback: small logout button */}
             <button
               onClick={handleLogout}
               className="inline-flex sm:hidden items-center px-2 py-1 rounded-md text-sm bg-red-600 text-white"
