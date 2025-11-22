@@ -72,10 +72,9 @@ export const Navbar = () => {
                   bg-transparent border border-neutral-200 dark:border-neutral-700
                   hover:bg-neutral-100/50 dark:hover:bg-white/6 transition
                 `}
-                title="Add Problem (Alt + A)"
+                title="Add Problem"
               >
-                <span className="hidden sm:inline">[Alt+A]</span>
-                <span>Add</span>
+                <span>Add Problem</span>
               </Link>
             )}
 
