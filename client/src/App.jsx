@@ -7,6 +7,7 @@ import SignUpPage from './pages/SignUpPage'
 import { useAuthStore } from './store/useAuthStore';
 import { Loader } from "lucide-react";
 import Layout from './layout/Layout';
+import AddProblem from './pages/AddProblem';
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -24,7 +25,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='bg-[#f7f7f7] dark:bg-black'>
       <Toaster />
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -40,6 +41,10 @@ function App() {
         <Route 
           path = '/signup'
           element={!authUser ? <SignUpPage/> : <Navigate to ={"/"}/>}
+        />
+        <Route 
+          path = '/addProblem'
+          element={authUser ? <AddProblem/> : <Navigate to ={"/login"}/>}
         />
       </Routes>
     </div>
