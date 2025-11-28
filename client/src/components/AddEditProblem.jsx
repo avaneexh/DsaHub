@@ -252,12 +252,12 @@ const AddEditProblem = ({ isEdit = false, editingProblem = null }) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
                         <label className="label"><span className="label-text">Input</span></label>
-                        <textarea className="textarea textarea-bordered min-h-[80px] bg-white text-black" {...register(`testcases.${idx}.input`)} />
+                        <textarea className="textarea textarea-bordered min-h-20 bg-white text-black" {...register(`testcases.${idx}.input`)} />
                         {errors.testcases?.[idx]?.input && <p className="text-sm text-error mt-1">{errors.testcases[idx].input.message}</p>}
                       </div>
                       <div>
                         <label className="label"><span className="label-text">Expected Output</span></label>
-                        <textarea className="textarea textarea-bordered min-h-[80px] bg-white text-black" {...register(`testcases.${idx}.output`)} />
+                        <textarea className="textarea textarea-bordered min-h-20 bg-white text-black" {...register(`testcases.${idx}.output`)} />
                         {errors.testcases?.[idx]?.output && <p className="text-sm text-error mt-1">{errors.testcases[idx].output.message}</p>}
                       </div>
                     </div>
