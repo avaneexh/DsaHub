@@ -50,22 +50,7 @@ function App() {
             element={authUser ? <AddEditProblem /> : <Navigate to="/" />}
           />
         </Route>
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-      />
+        
       </Routes>
     </div>
   )
