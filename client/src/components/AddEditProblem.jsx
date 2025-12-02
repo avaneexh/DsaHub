@@ -25,7 +25,7 @@ const problemSchema = z.object({
   constraints: z.string().min(1, "Constraints are required"),
   hints: z.string().optional(),
   editorial: z.string().optional(),
-  testcases: z
+  testCases: z
     .array(
       z.object({
         input: z.string().min(1, "Input is required"),
@@ -70,7 +70,7 @@ const blankDefaults = {
   constraints: "",
   hints: "",
   editorial: "",
-  testcases: [{ input: "", output: "" }],
+  testCases: [{ input: "", output: "" }],
   examples: {
     JAVASCRIPT: { input: "", output: "", explanation: "" },
     PYTHON: { input: "", output: "", explanation: "" },
@@ -106,7 +106,7 @@ const AddEditProblem = ({ isEdit = false, editingProblem = null }) => {
 
   const { fields: testCaseFields, append: appendTestCase, remove: removeTestCase, replace: replaceTestcases } = useFieldArray({
     control,
-    name: "testcases",
+    name: "testCases",
   });
 
   const { fields: tagFields, append: appendTag, remove: removeTag, replace: replaceTags } = useFieldArray({
@@ -121,7 +121,8 @@ const AddEditProblem = ({ isEdit = false, editingProblem = null }) => {
         const res = await axiosInstance.put(`/problems/${editingProblem.id}`, value);
         toast.success(res.data?.message || "Problem updated successfully");
       } else {
-        const res = await axiosInstance.post("/problems/create-problem", value);
+        console.log("payload", value);
+        const res = await axiosInstance.post("/problems/createProblem", value);
         toast.success(res.data?.message || "Problem created successfully");
       }
       navigate("/");
@@ -145,7 +146,7 @@ const AddEditProblem = ({ isEdit = false, editingProblem = null }) => {
     "To reach the nth step, you can either come from the (n-1)th step or the (n-2)th step.",
   editorial:
     "This is a classic dynamic programming problem. The number of ways to reach the nth step is the sum of the number of ways to reach the (n-1)th step and the (n-2)th step, forming a Fibonacci-like sequence.",
-  testcases: [
+  testCases: [
     {
       input: "2",
       output: "2",
@@ -392,7 +393,7 @@ class Main {
     "Consider using two pointers, one from the start and one from the end, moving towards the center.",
   editorial:
     "We can use two pointers approach to check if the string is a palindrome. One pointer starts from the beginning and the other from the end, moving towards each other.",
-  testcases: [
+  testCases: [
     {
       input: "A man, a plan, a canal: Panama",
       output: "true",
@@ -549,6 +550,7 @@ public class Main {
       # Output result
       print(str(result).lower())  # Convert True/False to lowercase true/false`,
     JAVA: `import java.util.Scanner;
+import { logout } from './../../../server/src/controllers/authController/auth.controller';
 
 public class Main {
     public static String preprocess(String s) {
@@ -583,7 +585,7 @@ public class Main {
   const loadSampleData = () => {
     const sample = sampleType === "DP" ? sampledpData : sampleStringProblem;
     replaceTags(sample.tags.map((t) => t));
-    replaceTestcases(sample.testcases.map((tc) => tc));
+    replaceTestcases(sample.testCases.map((tc) => tc));
     reset({ ...blankDefaults, ...sample });
   };
 
@@ -671,13 +673,13 @@ public class Main {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
                         <label className="label"><span className="label-text">Input</span></label>
-                        <textarea className="textarea textarea-bordered min-h-20 bg-white text-black" {...register(`testcases.${idx}.input`)} />
-                        {errors.testcases?.[idx]?.input && <p className="text-sm text-error mt-1">{errors.testcases[idx].input.message}</p>}
+                        <textarea className="textarea textarea-bordered min-h-20 bg-white text-black" {...register(`testCases.${idx}.input`)} />
+                        {errors.testCases?.[idx]?.input && <p className="text-sm text-error mt-1">{errors.testCases[idx].input.message}</p>}
                       </div>
                       <div>
                         <label className="label"><span className="label-text">Expected Output</span></label>
-                        <textarea className="textarea textarea-bordered min-h-20 bg-white text-black" {...register(`testcases.${idx}.output`)} />
-                        {errors.testcases?.[idx]?.output && <p className="text-sm text-error mt-1">{errors.testcases[idx].output.message}</p>}
+                        <textarea className="textarea textarea-bordered min-h-20 bg-white text-black" {...register(`testCases.${idx}.output`)} />
+                        {errors.testCases?.[idx]?.output && <p className="text-sm text-error mt-1">{errors.testCases[idx].output.message}</p>}
                       </div>
                     </div>
                   </div>
