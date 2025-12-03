@@ -33,9 +33,9 @@ export const poolBatchResults = async (tokens) => {
         const results = data.submissions;
 
         const isAllDone = results.every(
-            (r) => r.status.id !== 1 && r.status !== 2
-        )
-
+            (r) => r.status.id !== 1 && r.status.id !== 2
+        );
+        
         if(isAllDone){
             return results;
         }
