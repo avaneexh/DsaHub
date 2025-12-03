@@ -10,6 +10,7 @@ import Layout from './layout/Layout';
 import AddProblem from './pages/AddProblem';
 import AdminRoute from './components/AdminRoute';
 import AddEditProblem from './components/AddEditProblem';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -17,7 +18,7 @@ function App() {
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+  }, [checkAuth, isCheckingAuth]);
   if (isCheckingAuth && !authUser) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -33,16 +34,20 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route
             index
-            element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
+            element={authUser ? <HomePage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path = '/dashboard'
+            element={authUser ? <Dashboard/> : <Navigate to="/login"/>}
           />
         </Route>
         <Route 
           path = '/login'
-          element={!authUser ? <LoginPage/> :  <Navigate to ={"/"}/> }
+          element={!authUser ? <LoginPage/> :  <Navigate to ="/"/> }
         />
         <Route 
           path = '/signup'
-          element={!authUser ? <SignUpPage/> : <Navigate to ={"/"}/>}
+          element={!authUser ? <SignUpPage/> : <Navigate to ="/"/>}
         />
         <Route element={<AdminRoute />}>
           <Route
