@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
-import { Toast } from "./useToastStore";
+import toast from "react-hot-toast";
 
 export const useProblemStore = create((set) => ({
   problems: [],
@@ -16,7 +16,7 @@ export const useProblemStore = create((set) => ({
       set({ problems: response.data.problems });
     } catch (error) {
       set({ isProblemsLoading: false });
-      Toast.error("Failed to fetch problems");
+      toast.error("Failed to fetch problems");
     } finally {
       set({ isProblemsLoading: false });
     }
@@ -29,7 +29,7 @@ export const useProblemStore = create((set) => ({
       set({ problem: response.data.problem });
     } catch (error) {
       set({ isProblemLoading: false });
-      Toast.error("Failed to fetch problem");
+      toast.error("Failed to fetch problem");
     } finally {
       set({ isProblemLoading: false });
     }
@@ -42,7 +42,7 @@ export const useProblemStore = create((set) => ({
       set({ solvedProblems: response.data.problems });
     } catch (error) {
       set({ isProblemsLoading: false });
-      Toast.error("Failed to fetch solved problems");
+      toast.error("Failed to fetch solved problems");
     } finally {
       set({ isProblemsLoading: false });
     }
@@ -55,7 +55,7 @@ export const useProblemStore = create((set) => ({
       set({ solvedProblems: res.data.data });
     } catch (error) {
       console.log("Error getting solved problems", error);
-      Toast.error("Error getting solved problems");
+      toast.error("Error getting solved problems");
     }
   },
 }));
