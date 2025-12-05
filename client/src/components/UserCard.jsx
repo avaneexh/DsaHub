@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Loader } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
 
 const UserCard = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -32,9 +34,9 @@ const UserCard = () => {
         
           <div
             className="
-              flex h-20 w-20 shrink-0 items-center justify-center
+              flex h-35 w-35 shrink-0 items-center justify-center
               rounded-2xl border border-neutral-600/80
-              bg-neutral-50 text-3xl font-semibold tracking-tight
+              bg-neutral-50 text-8xl font-semibold tracking-tight
               dark:bg-neutral-950 dark:border-neutral-400
             "
           >
@@ -46,7 +48,7 @@ const UserCard = () => {
                 Welcome back,
                 <span className="ml-1">{name}</span>
               </h2>
-              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
+              <p className="mt-1 text-xl  text-neutral-600 dark:text-neutral-300">
                 {email}
               </p>
             </div>
@@ -56,7 +58,7 @@ const UserCard = () => {
               <button
                 type="button"
                 className="
-                  inline-flex items-center justify-center
+                  inline-flex items-center gap-1.5
                   rounded-full border border-neutral-900/80
                   px-4 py-1.5 text-xs font-medium tracking-tight
                   shadow-sm
@@ -65,21 +67,26 @@ const UserCard = () => {
                   dark:border-neutral-100
                 "
               >
-                Profile -&gt;
+                Profile
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
+
               <button
                 type="button"
                 className="
-                  inline-flex items-center justify-center
+                  inline-flex items-center gap-1.5
                   rounded-full border border-neutral-900/80
                   px-4 py-1.5 text-xs font-medium tracking-tight
-                  shadow-sm transition-shadow
+                  shadow-sm
+                  transition-transform
                   hover:-translate-y-0.5 hover:shadow-md
                   dark:border-neutral-100
                 "
               >
-                Playlists -&gt;
+                Playlists
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
+
             </div>
           </div>
         </div>
