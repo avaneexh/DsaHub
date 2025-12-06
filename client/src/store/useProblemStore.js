@@ -9,7 +9,7 @@ export const useProblemStore = create((set) => ({
   isProblemLoading: false,
   isProblemsLoading: false,
 
-  getProblems: async () => {
+  getAllProblems: async () => {
     set({ isProblemsLoading: true });
     try {
       const response = await axiosInstance.get(`/problems/getAllProblem`);
