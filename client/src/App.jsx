@@ -41,10 +41,6 @@ function App() {
             path = '/dashboard'
             element={authUser ? <Dashboard/> : <Navigate to="/login"/>}
           />
-          <Route
-            path = '/solve/:id'
-            element={authUser ? <ProblemPage/> : <Navigate to="/login"/>}
-          />
         </Route>
         <Route 
           path = '/login'
@@ -53,6 +49,10 @@ function App() {
         <Route 
           path = '/signup'
           element={!authUser ? <SignUpPage/> : <Navigate to ="/"/>}
+        />
+        <Route
+            path = '/solve/:id'
+            element={authUser ? <ProblemPage/> : <Navigate to="/login"/>}
         />
         <Route element={<AdminRoute />}>
           <Route
