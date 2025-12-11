@@ -5,12 +5,16 @@ import toast from "react-hot-toast";
 
 
 export const useExecutionStore = create((set)=>({
-    isExecuting:false,
-    submission:null,
+    isExecuting: false,
+    isSubmitting: false,
+    submission: null,
 
-       executeCode:async ( source_code, language_id, stdin, expected_outputs, problemId)=>{
+       executeCode:async ( source_code, language_id, stdin, expected_outputs, problemId, saveSubmission = false)=>{
         try {
-            set({isExecuting:true});
+            set({
+                isExecuting: saveSubmission ? false : true,
+                isSubmitting: saveSubmission ? true : false,
+            });
             console.log("Submission:",JSON.stringify({
                 source_code,
                 language_id,
@@ -18,7 +22,10 @@ export const useExecutionStore = create((set)=>({
                 expected_outputs,
                 problemId
             }));
-            const res = await axiosInstance.post("/execute-code" , { source_code, language_id, stdin, expected_outputs, problemId });
+            const res = await axiosInstance.post("/execution" , { source_code, language_id, stdin, expected_outputs, problemId, saveSubmission  });
+
+            console.log("res", res);
+            
 
             set({submission:res.data.submission});
       

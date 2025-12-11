@@ -6,22 +6,25 @@ export const executeCode = async (req, res) => {
   try {
     const {
       source_code,
-      languageId,
+      language_id,
       stdin,
-      expectedOutput,
+      expected_outputs,
       problemId,
       saveSubmission = false,
     } = req.body;
 
     const userId = req.user.id;
 
+    // console.log("body", req.body);
+    
+
     //Validate test cases
     if (
       !Array.isArray(stdin) ||
       stdin.length === 0 ||
-      !Array.isArray(expectedOutput) ||
-      expectedOutput.length === 0 ||
-      expectedOutput.length !== stdin.length
+      !Array.isArray(expected_outputs) ||
+      expected_outputs.length === 0 ||
+      expected_outputs.length !== stdin.length
     ) {
       return res.status(400).json({
         error: "Invalid test cases. Please provide valid input and output.",
@@ -31,10 +34,12 @@ export const executeCode = async (req, res) => {
     // Prepare each test case for judge0 submission
     const submissions = stdin.map((input) => ({
       source_code,
-      language_id: languageId,
+      language_id: language_id,
       stdin: input,
     }));
 
+    console.log("submissions", submissions);
+    
     // Submit the batch of test cases to judge0
     const submitResponse = await submitBatch(submissions);
 
@@ -49,7 +54,7 @@ export const executeCode = async (req, res) => {
     // Analyze test case results
     let allPassed = true;
     const detailedResults = results.map((result, index) => {
-      const expected = expectedOutput[index]?.trim();
+      const expected = expected_outputs[index]?.trim();
       const actual = result.stdout?.trim();
 
       const passed = actual === expected;
@@ -89,7 +94,7 @@ export const executeCode = async (req, res) => {
           userId,
           problemId,
           sourceCode: { code: source_code },
-          language: getLanguageName(languageId),
+          language: getLanguageName(language_id),
           stdin: stdin.join("\n"),
           stdout: JSON.stringify(
             detailedResults.map((result) => result.stdout)
@@ -156,6 +161,10 @@ export const executeCode = async (req, res) => {
           testCases: true,
         },
       });
+    }
+
+    if(!allPassed){
+      return res.status(400).json({message:"Wrong Answer"})
     }
 
     // Return appropriate response based on whether a submission was saved

@@ -36,6 +36,7 @@ const ProblemPage = () => {
     getSubmissionCountForProblem,
     submissionCount,
     submission,
+    isSubmitting,
   } = useSubmissionStore();
 
   const [code, setCode] = useState("");
@@ -60,7 +61,7 @@ const ProblemPage = () => {
 
   useEffect(() => {
     if (problem) {
-      setCode(problem.codeSnippets?.[selectedLanguage] || submission?.sourceCode || "");
+      setCode(problem.codeSnippets?.[selectedLanguage.toLocaleUpperCase()] || submission?.sourceCode || "");
       setTestCases(
         (problem.testCases || []).map((tc) => ({
           input: tc.input,
@@ -68,6 +69,10 @@ const ProblemPage = () => {
         }))
       );
     }
+    // console.log("source code",problem );
+    // console.log("editor code",code);
+    // console.log("editor selectedLanguage",selectedLanguage);
+    
   }, [problem, selectedLanguage, submission]);
 
   useEffect(() => {
@@ -96,13 +101,39 @@ const ProblemPage = () => {
     e.preventDefault();
     try {
       const language_id = getLanguageId(selectedLanguage);
+      console.log("language_id",language_id);
+      
       const stdin = (problem?.testCases || []).map((tc) => tc.input);
       const expected_outputs = (problem?.testCases || []).map((tc) => tc.output);
-      executeCode(code, language_id, stdin, expected_outputs, id);
+      const res = executeCode(code, language_id, stdin, expected_outputs, id);
+      // console.log("res", res );      
     } catch (error) {
       console.error("Error executing code", error);
     }
   };
+
+  const handleSubmitSolution = (e) => {
+    e.preventDefault();
+    try {
+      const language_id = getLanguageId(selectedLanguage);
+      const stdin = problem?.testCases.map((testcase) => testcase.input);
+      const expected_outputs = problem.testCases.map((tc) => tc.output);
+
+      const subRes = executeCode(code, language_id, stdin, expected_outputs, id, true).then(
+        () => {
+          getSubmissionForProblem(id);
+          getSubmissionCountForProblem(id);
+
+          if (activeTab !== "submissions") {
+            setActiveTab("submissions");
+          }
+        }
+      );
+    } catch (error) {
+      console.log("Error submitting solution", error);
+    }
+  };
+
 
   useEffect(() => {
     function onMouseMove(e) {
@@ -518,7 +549,10 @@ const ProblemPage = () => {
                       Run Code
                     </button>
 
-                    <button className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-white border border-neutral-300 text-neutral-700 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200">
+                    <button className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-white border border-neutral-300 text-neutral-700 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200"
+                      onClick={handleSubmitSolution}
+                      disabled={isSubmitting}
+                    >
                       <BookOpen className="w-4 h-4" />
                       Submit Solution
                     </button>
