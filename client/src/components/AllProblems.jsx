@@ -226,7 +226,7 @@ const ProblemsTable = ({ problems }) => {
                       </td>
                       <td className="px-5 py-3 sm:px-8">
                         <Link
-                          to={`/problem/${problem.id}`}
+                          to={`/solve/${problem.id}`}
                           className="font-semibold hover:underline"
                         >
                           {problem.title}
