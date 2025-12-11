@@ -126,6 +126,22 @@ const ProblemPage = () => {
     };
   }, [isResizing]);
 
+  useEffect(() => {
+    const handleUp = () => {
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    };
+
+    window.addEventListener("mouseup", handleUp);
+    window.addEventListener("mouseleave", handleUp);
+
+    return () => {
+      window.removeEventListener("mouseup", handleUp);
+      window.removeEventListener("mouseleave", handleUp);
+    };
+  }, []);
+
+
   // Vertical mouse move handler for editor/testcases split inside right pane
   useEffect(() => {
     function onMouseMove(e) {
