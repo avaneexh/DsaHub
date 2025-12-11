@@ -228,7 +228,7 @@ const ProblemPage = () => {
   };
 
   return (
-    <>
+    <div className="max-h-screen overflow-auto hide-scrollbar"> 
       <Navbar />
       <div className="max-h-screen bg-neutral-50 dark:bg-neutral-950 ">
         <div className="mx-auto px-4" ref={containerRef}>
@@ -491,7 +491,7 @@ const ProblemPage = () => {
                 }}
               >
                 {/* FIXED (non-scrollable) top bar */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 flex-none">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 flex-none mb-3">
                   <div className="flex gap-3">
                     <button
                       className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ${isExecuting ? "opacity-80 cursor-wait" : "bg-neutral-900 text-white hover:-translate-y-px"} dark:bg-neutral-50 dark:text-black`}
@@ -557,7 +557,7 @@ const ProblemPage = () => {
         </div>
        </div>
       </div>
-    </>
+    </div>
   );
 };
 
