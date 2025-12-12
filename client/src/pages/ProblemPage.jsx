@@ -36,9 +36,8 @@ const ProblemPage = () => {
     getSubmissionCountForProblem,
     submissionCount,
     submission,
-    isSubmitting,
   } = useSubmissionStore();
-
+  
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
@@ -46,7 +45,7 @@ const ProblemPage = () => {
   const [testCases, setTestCases] = useState([]);
   const [editorTheme, setEditorTheme] = useState("vs-dark");
 
-  const { executeCode, isExecuting } = useExecutionStore();
+  const { executeCode, isExecuting, isSubmitting, } = useExecutionStore();
 
   const containerRef = useRef(null);
   const [leftWidth, setLeftWidth] = useState(520); 
@@ -541,21 +540,45 @@ const ProblemPage = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 flex-none mb-3">
                   <div className="flex gap-3">
                     <button
-                      className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium ${isExecuting ? "opacity-80 cursor-wait" : "bg-neutral-900 text-white hover:-translate-y-px"} dark:bg-neutral-50 dark:text-black`}
+                      className={`
+                        inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium
+                        transition
+                        ${isExecuting 
+                          ? "bg-neutral-400 text-white cursor-wait" 
+                          : "bg-neutral-900 text-white hover:-translate-y-px"
+                        }
+                      `}
                       onClick={handleRunCode}
                       disabled={isExecuting}
                     >
-                      {!isExecuting ? <Play className="w-4 h-4" /> : <span className="loading loading-spinner" />}
+                      {!isExecuting ? (
+                        <Play className="w-4 h-4" />
+                      ) : (
+                        <span className="loading loading-spinner" />
+                      )}
                       Run Code
                     </button>
 
-                    <button className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-white border border-neutral-300 text-neutral-700 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200"
+                    <button
+                      className={`
+                        inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium
+                        transition
+                        ${isSubmitting
+                          ? "bg-neutral-300 text-neutral-600 border border-neutral-300 cursor-wait"
+                          : "bg-white text-neutral-700 border border-neutral-300 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200"
+                        }
+                      `}
                       onClick={handleSubmitSolution}
                       disabled={isSubmitting}
                     >
-                      <BookOpen className="w-4 h-4" />
+                      {!isSubmitting ? (
+                        <BookOpen className="w-4 h-4" />
+                      ) : (
+                        <span className="loading loading-spinner" />
+                      )}
                       Submit Solution
                     </button>
+
                   </div>
 
                   <div className="text-sm text-neutral-600 dark:text-neutral-300">

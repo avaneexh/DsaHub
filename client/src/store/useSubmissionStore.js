@@ -37,7 +37,7 @@ export const useSubmissionStore = create((set, get) => ({
     } catch (error) {
       console.log("Error getting submissions for problem", error);
 
-      toast.error("Error getting submissions for problem");
+      // toast.error("Error getting submissions for problem");
       
     } finally {
       set({ isLoading: false });

@@ -13,7 +13,7 @@ export const useExecutionStore = create((set)=>({
         try {
             set({
                 isExecuting: saveSubmission ? false : true,
-                isSubmitting: saveSubmission ? true : false,
+                isSubmitting: saveSubmission,
             });
             console.log("Submission:",JSON.stringify({
                 source_code,
@@ -32,10 +32,13 @@ export const useExecutionStore = create((set)=>({
             toast.success(res.data.message);
         } catch (error) {
             console.log("Error executing code",error);
-            toast.error("Error executing code");
+            toast.error(error?.response?.data?.message);
         }
         finally{
             set({isExecuting:false});
+            if(saveSubmission){
+                set({isSubmitting:false});
+            }
         }
     }
 }))
