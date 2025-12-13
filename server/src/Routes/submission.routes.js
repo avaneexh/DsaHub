@@ -11,7 +11,7 @@ const submissionRoutes = express.Router();
 submissionRoutes.get("/get-all-submissions", authMiddleware, getAllSubmissions);
 
 submissionRoutes.get(
-  "/get-submissions/:id",
+  "/get-submission/:id",
   authMiddleware,
   getSubmissionByProblem
 );

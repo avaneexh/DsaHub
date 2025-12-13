@@ -35,7 +35,6 @@ const ProblemPage = () => {
     getSubmissionForProblem,
     getSubmissionCountForProblem,
     submissionCount,
-    submission,
   } = useSubmissionStore();
   
   const [code, setCode] = useState("");
@@ -45,7 +44,7 @@ const ProblemPage = () => {
   const [testCases, setTestCases] = useState([]);
   const [editorTheme, setEditorTheme] = useState("vs-dark");
 
-  const { executeCode, isExecuting, isSubmitting, } = useExecutionStore();
+  const { executeCode, isExecuting, submission, isSubmitting, } = useExecutionStore();
 
   const containerRef = useRef(null);
   const [leftWidth, setLeftWidth] = useState(520); 
@@ -72,7 +71,7 @@ const ProblemPage = () => {
     // console.log("editor code",code);
     // console.log("editor selectedLanguage",selectedLanguage);
     
-  }, [problem, selectedLanguage, submission]);
+  }, [problem, selectedLanguage]);
 
   useEffect(() => {
     if (activeTab === "submissions" && id) {
@@ -100,7 +99,7 @@ const ProblemPage = () => {
     e.preventDefault();
     try {
       const language_id = getLanguageId(selectedLanguage);
-      console.log("language_id",language_id);
+      // console.log("language_id",language_id);
       
       const stdin = (problem?.testCases || []).map((tc) => tc.input);
       const expected_outputs = (problem?.testCases || []).map((tc) => tc.output);
@@ -122,7 +121,6 @@ const ProblemPage = () => {
         () => {
           getSubmissionForProblem(id);
           getSubmissionCountForProblem(id);
-
           if (activeTab !== "submissions") {
             setActiveTab("submissions");
           }
