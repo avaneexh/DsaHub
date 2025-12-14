@@ -72,6 +72,7 @@ const ProblemPage = () => {
     // console.log("editor selectedLanguage",selectedLanguage);
     
   }, [problem, selectedLanguage]);
+  
 
   useEffect(() => {
     if (activeTab === "submissions" && id) {
