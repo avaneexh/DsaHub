@@ -5,7 +5,6 @@ import AllPlaylists from './../components/AllPlaylists';
 const PlaylistsPage = () => {
   return (
     <div>
-        <UserCard/>
         <AllPlaylists/>
     </div>
   )

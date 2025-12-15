@@ -4,19 +4,18 @@ import { Link } from "react-router-dom";
 import { Bookmark, PencilIcon, TrashIcon, Plus } from "lucide-react";
 // import { useActions } from "../store/useAction";
 // import AddToPlaylistModal from "./AddToPlaylist";
-// import CreatePlaylistModal from "./CreatePlaylistModal";
+import CreatePlaylist from "../components/CreatePlaylist";
 // import { usePlaylistStore } from "../store/usePlaylistStore";
 
 const ProblemsTable = ({ problems }) => {
   const { authUser } = useAuthStore();
   // const { onDeleteProblem } = useActions();
-  // const { createPlaylist } = usePlaylistStore();
 
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("ALL");
   const [selectedTag, setSelectedTag] = useState("ALL");
+  const [openCreate, setOpenCreate] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
     useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState(null);
@@ -62,9 +61,7 @@ const ProblemsTable = ({ problems }) => {
     onDeleteProblem(id);
   };
 
-  const handleCreatePlaylist = async (data) => {
-    await createPlaylist(data);
-  };
+ 
 
   const handleAddToPlaylist = (problemId) => {
     setSelectedProblemId(problemId);
@@ -105,6 +102,7 @@ const ProblemsTable = ({ problems }) => {
             </p>
           </div>
           <button
+           onClick={() => setOpenCreate(true)}
             className="
               inline-flex items-center gap-2
               rounded-full border border-neutral-900/80
@@ -113,7 +111,7 @@ const ProblemsTable = ({ problems }) => {
               hover:-translate-y-0.5 hover:shadow-md
               dark:border-neutral-100
             "
-            onClick={() => setIsCreateModalOpen(true)}
+            
           >
             <Plus className="w-4 h-4" />
             Create Playlist
@@ -358,18 +356,16 @@ const ProblemsTable = ({ problems }) => {
         </div>
       </div>
 
-      {/* Modals
-      <CreatePlaylistModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onSubmit={handleCreatePlaylist}
+      <CreatePlaylist
+        isOpen={openCreate}
+        onClose={() => setOpenCreate(false)}
       />
-
+{/* 
       <AddToPlaylistModal
         isOpen={isAddToPlaylistModalOpen}
         onClose={() => setIsAddToPlaylistModalOpen(false)}
         problemId={selectedProblemId}
-      /> */}
+      />  */}
     </section>
   );
 };

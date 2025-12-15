@@ -11,17 +11,24 @@ export const usePlaylistStore = create((set, get) => ({
   createPlaylist: async (playlistData) => {
     try {
       set({ isLoading: true });
+
       const response = await axiosInstance.post(
         "/playlist/create-playlist",
         playlistData
       );
 
+      const newPlaylist = response.data.playlist; 
+
+      if (!newPlaylist) {
+        throw new Error("Playlist not returned from API");
+      }
+
       set((state) => ({
-        playlists: [...state.playlists, response.data.playList],
+        playlists: [...(state.playlists || []), newPlaylist],
       }));
 
       toast.success("Playlist created successfully");
-      return response.data.playList;
+      return newPlaylist;
     } catch (error) {
       console.error("Error creating playlist:", error);
       toast.error(error.response?.data?.error || "Failed to create playlist");
@@ -31,11 +38,16 @@ export const usePlaylistStore = create((set, get) => ({
     }
   },
 
+
   getAllPlaylists: async () => {
     try {
       set({ isLoading: true });
+
       const response = await axiosInstance.get("/playlist");
-      set({ playlists: response.data.playLists });
+      // console.log("playlist res", response.data);
+
+      set({ playlists: response.data.playlists });
+      
     } catch (error) {
       console.error("Error fetching playlists:", error);
       toast.error("Failed to fetch playlists");

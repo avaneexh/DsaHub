@@ -24,7 +24,7 @@ export const createPlaylist = async (req, res) => {
   }
 };
 
-export const getAllLists = async (req, res) => {
+export const getAllPlaylists = async (req, res) => {
   try {
     const userId = req.user.id;
     const playlists = await db.Playlist.findMany({
