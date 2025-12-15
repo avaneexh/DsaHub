@@ -7,7 +7,6 @@ import SignUpPage from './pages/SignUpPage'
 import { useAuthStore } from './store/useAuthStore';
 import { Loader } from "lucide-react";
 import Layout from './layout/Layout';
-import AddProblem from './pages/AddProblem';
 import AdminRoute from './components/AdminRoute';
 import AddEditProblem from './components/AddEditProblem';
 import Dashboard from './pages/Dashboard';
