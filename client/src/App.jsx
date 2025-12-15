@@ -12,6 +12,7 @@ import AdminRoute from './components/AdminRoute';
 import AddEditProblem from './components/AddEditProblem';
 import Dashboard from './pages/Dashboard';
 import ProblemPage from './pages/ProblemPage';
+import PlaylistsPage from './pages/PlaylistsPage';
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -40,6 +41,10 @@ function App() {
           <Route
             path = '/dashboard'
             element={authUser ? <Dashboard/> : <Navigate to="/login"/>}
+          />
+          <Route
+            path = '/playlists'
+            element={authUser ? <PlaylistsPage/> : <Navigate to="/login"/>}
           />
         </Route>
         <Route 

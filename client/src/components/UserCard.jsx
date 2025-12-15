@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Loader } from "lucide-react";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 
 const UserCard = () => {
@@ -10,6 +12,7 @@ const UserCard = () => {
   const name = authUser?.name || authUser?.username || "Guest";
   const email = authUser?.email || "guest@example.com";
   const initial = name?.trim()?.charAt(0)?.toUpperCase() || "?";
+  const navigate = useNavigate(); 
 
   if (isCheckingAuth) {
     return (
@@ -82,6 +85,7 @@ const UserCard = () => {
                   hover:-translate-y-0.5 hover:shadow-md
                   dark:border-neutral-100
                 "
+                onClick={() => navigate("/playlists")}
               >
                 Playlists
                 <ArrowRight className="w-3.5 h-3.5" />
