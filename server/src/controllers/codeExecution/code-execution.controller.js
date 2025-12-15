@@ -38,7 +38,7 @@ export const executeCode = async (req, res) => {
       stdin: input,
     }));
 
-    console.log("submissions", submissions);
+    // console.log("submissions", submissions);
     
     // Submit the batch of test cases to judge0
     const submitResponse = await submitBatch(submissions);
@@ -48,8 +48,8 @@ export const executeCode = async (req, res) => {
     // Poll for results
     const results = await poolBatchResults(tokens);
 
-    console.log("Result ---------");
-    console.log(results);
+    // console.log("Result ---------");
+    // console.log(results);
 
     // Analyze test case results
     let allPassed = true;
@@ -62,11 +62,11 @@ export const executeCode = async (req, res) => {
         allPassed = false;
       }
 
-      console.log(`TestCase #${index + 1} ---------`);
-      console.log("Input:", stdin[index]);
-      console.log("Expected Output:", expected);
-      console.log("Actual Output:", actual);
-      console.log(`Did it pass ? ${passed}`);
+      // console.log(`TestCase #${index + 1} ---------`);
+      // console.log("Input:", stdin[index]);
+      // console.log("Expected Output:", expected);
+      // console.log("Actual Output:", actual);
+      // console.log(`Did it pass ? ${passed}`);
 
       return {
         testCase: index + 1,
@@ -81,7 +81,7 @@ export const executeCode = async (req, res) => {
       };
     });
 
-    console.log("Detailed Results", detailedResults);
+    // console.log("Detailed Results", detailedResults);
 
     // Initialize variables for database operations
     let submission = null;
