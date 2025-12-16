@@ -113,7 +113,7 @@ export const addProblemToPlaylist = async (req, res) => {
 
     if (existingProblems.length > 0) {
       return res
-        .status(400)
+        .status(200)
         .json({ message: "Problems already exist in playlist" });
     }
 

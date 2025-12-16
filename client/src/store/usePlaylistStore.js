@@ -72,11 +72,11 @@ export const usePlaylistStore = create((set, get) => ({
   addProblemToPlaylist: async (playlistId, problemIds) => {
     try {
       set({ isLoading: true });
-      await axiosInstance.post(`/playlist/${playlistId}/add-problem`, {
+      const res = await axiosInstance.post(`/playlist/${playlistId}/add-problem`, {
         problemIds,
       });
-
-      toast.success("Problem added to playlist");
+      
+      toast.success(res?.data?.message);
 
       // Refresh the playlist details
       if (get().currentPlaylist?.id === playlistId) {

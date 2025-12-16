@@ -3,13 +3,15 @@ import { Pencil, Trash2, Plus, Search, ArrowLeft } from "lucide-react";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import CreatePlaylist from "./CreatePlaylist";
 import { useNavigate } from "react-router-dom";
+import AddToPlaylistModal from "./AddToPlaylistModal";
 
 const AllPlaylists = () => {
   const navigate = useNavigate();
   const { getAllPlaylists, playlists, isLoading } = usePlaylistStore();
-
+  const [openAdd, setOpenAdd] = useState(false);
   const [search, setSearch] = useState("");
   const [openCreate, setOpenCreate] = useState(false);
+  const [playlist, setPlaylist] = useState(null);
 
   useEffect(() => {
     getAllPlaylists();
@@ -165,8 +167,13 @@ const AllPlaylists = () => {
                       <Trash2 className="h-4 w-4" />
                     </button>
 
-                    <button className="rounded-full border border-neutral-300 dark:border-neutral-700 p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-                      <Plus className="h-4 w-4" />
+                    <button 
+                      onClick={() => {
+                        setPlaylist(playlist); 
+                        setOpenAdd(true);
+                      }}
+                      className="rounded-full border border-neutral-300 dark:border-neutral-700 p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+                        <Plus className="h-4 w-4" />
                     </button>
                   </div>
                 </td>
@@ -176,10 +183,17 @@ const AllPlaylists = () => {
         </table>
       </div>
 
-      {/* ===== Create Playlist Modal ===== */}
       <CreatePlaylist
         isOpen={openCreate}
         onClose={() => setOpenCreate(false)}
+      />
+      <AddToPlaylistModal
+        isOpen={openAdd}
+        onClose={() => {
+          setOpenAdd(false);
+          setPlaylist(null);
+        }}
+        playlistId={playlist?.id}
       />
     </section>
   );
