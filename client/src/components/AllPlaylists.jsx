@@ -155,7 +155,7 @@ const AllPlaylists = () => {
 
                 <td className="px-6 py-4 text-neutral-600 dark:text-neutral-400">
                   {playlist?.description || "—"}
-                </td>
+                </td> 
 
                 <td className="px-6 py-4">
                   <div className="flex justify-end gap-2">
