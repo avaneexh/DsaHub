@@ -30,111 +30,154 @@ const PlaylistDetail = () => {
     return <div className="p-6">Loading...</div>;
   }
 
-  return (
-    <section className="px-6 mt-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)}>
-            <ArrowLeft />
-          </button>
-          <h1 className="text-lg font-semibold">
-            {currentPlaylist.name}
-          </h1>
-        </div>
+  console.log("currentPlaylist",currentPlaylist);
+  
 
-        <div className="flex gap-3">
-          <button onClick={() => setOpenEdit(true)}>
-            <Pencil />
-          </button>
-          <button onClick={() => setOpenDelete(true)}>
-            <Trash2 />
-          </button>
-          <button onClick={() => setOpenAdd(true)}>
-            <Plus />
-          </button>
-        </div>
+  return (
+    <section className="w-full px-4 mt-8">
+  <div
+    className="
+      mx-auto max-w-6xl
+      rounded-3xl border border-neutral-400/70
+      bg-neutral-100/60 text-neutral-900
+      shadow-sm backdrop-blur
+      dark:bg-neutral-900/80 dark:text-neutral-50 dark:border-neutral-500/70
+    "
+  >
+    {/* Header */}
+    <div className="flex items-center justify-between px-5 py-5 sm:px-8 sm:pt-7 sm:pb-4">
+      <div className="flex items-center gap-3">
+        <button onClick={() => navigate(-1)}>
+          <ArrowLeft className="w-4 h-4" />
+        </button>
+        <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
+          {currentPlaylist.name}
+        </h1>
       </div>
 
-      {/* Table */}
-      <div className="rounded-2xl border border-black dark:border-white overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="border-b border-black dark:border-white">
+      <div className="flex gap-2">
+        <button onClick={() => setOpenEdit(true)}>
+          <Pencil className="w-4 h-4" />
+        </button>
+        <button onClick={() => setOpenDelete(true)}>
+          <Trash2 className="w-4 h-4" />
+        </button>
+        <button onClick={() => setOpenAdd(true)}>
+          <Plus className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+
+    {/* Table */}
+    <div className="overflow-x-auto border-t border-neutral-300/70 dark:border-neutral-700/70">
+      <table className="min-w-full border-separate border-spacing-0 text-sm">
+        <thead>
+          <tr className="text-left text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            <th className="px-5 py-3 sm:px-8">#</th>
+            <th className="px-5 py-3 sm:px-8">Title</th>
+            <th className="px-5 py-3 sm:px-8">Tags</th>
+            <th className="px-5 py-3 sm:px-8">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {currentPlaylist.problems?.length === 0 ? (
             <tr>
-              <th className="px-4 py-3 text-left w-16">S.No</th>
-              <th className="px-4 py-3 text-left">Title</th>
-              <th className="px-4 py-3 text-left">Description</th>
-              <th className="px-4 py-3 text-left">Tags</th>
-              <th className="px-4 py-3 text-right">Actions</th>
+              <td
+                colSpan={5}
+                className="px-5 py-6 text-center text-sm text-neutral-500 sm:px-8"
+              >
+                No problems added yet
+              </td>
             </tr>
-          </thead>
-
-          <tbody>
-            {currentPlaylist.problems?.length === 0 && (
-              <tr>
-                <td colSpan="5" className="py-10 text-center opacity-70">
-                  No problems added yet
-                </td>
-              </tr>
-            )}
-
-            {currentPlaylist.problems?.map((problem, index) => (
+          ) : (
+            currentPlaylist.problems.map((problem, idx) => (
               <tr
                 key={problem.id}
-                className="border-b border-black dark:border-white"
+                className={`
+                  ${idx % 2 === 0
+                    ? "bg-neutral-100/60 dark:bg-neutral-900/60"
+                    : "bg-neutral-50/60 dark:bg-neutral-950/40"}
+                `}
               >
-                <td className="px-4 py-3">{index + 1}</td>
-                <td className="px-4 py-3 font-medium">
-                  {problem.title}
+                <td className="px-5 py-3 sm:px-8">
+                  {idx + 1}
                 </td>
-                <td className="px-4 py-3">
-                  {problem.description || "—"}
+
+                <td className="px-5 py-3 sm:px-8 font-semibold">
+                  {problem.problem.title}
                 </td>
-                <td className="px-4 py-3">
-                  {problem.tags?.join(", ") || "—"}
+
+                <td className="px-5 py-3 sm:px-8">
+                  <div className="flex flex-wrap gap-1.5">
+                    {(problem.problem.tags || []).map((tag, i) => (
+                      <span
+                        key={i}
+                        className="
+                          rounded-full border border-neutral-400/80
+                          px-2 py-0.5 text-[10px] font-medium
+                          uppercase tracking-wide
+                          dark:border-neutral-500
+                        "
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </td>
-                <td className="px-4 py-3 text-right">
+
+                <td className="px-5 py-3 sm:px-8">
                   <button
                     onClick={() =>
                       removeProblemFromPlaylist(
                         playlistId,
-                        [problem.id]
+                        [problem.problem.id]
                       )
                     }
+                    className="
+                      inline-flex items-center justify-center
+                      rounded-full border border-red-600/80
+                      px-2.5 py-1 text-[11px] font-medium
+                      text-red-700 hover:bg-red-600 hover:text-white
+                      transition-colors
+                    "
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-      {/* Modals */}
-      <AddToPlaylistModal
-        isOpen={openAdd}
-        onClose={() => setOpenAdd(false)}
-        playlistId={playlistId}
-      />
+  {/* Modals */}
+  <AddToPlaylistModal
+    isOpen={openAdd}
+    onClose={() => setOpenAdd(false)}
+    playlistId={playlistId}
+  />
 
-      <EditPlaylistModal
-        isOpen={openEdit}
-        onClose={() => setOpenEdit(false)}
-        playlist={currentPlaylist}
-      />
+  <EditPlaylistModal
+    isOpen={openEdit}
+    onClose={() => setOpenEdit(false)}
+    playlist={currentPlaylist}
+  />
 
-      <ConfirmDeleteModal
-        isOpen={openDelete}
-        onClose={() => setOpenDelete(false)}
-        onConfirm={async () => {
-          await deletePlaylist(playlistId);
-          navigate("/playlists");
-        }}
-        title="Delete Playlist?"
-        description="This action cannot be undone."
-      />
-    </section>
+  <ConfirmDeleteModal
+    isOpen={openDelete}
+    onClose={() => setOpenDelete(false)}
+    onConfirm={async () => {
+      await deletePlaylist(playlistId);
+      navigate("/playlists");
+    }}
+    title="Delete Playlist?"
+    description="This action cannot be undone."
+  />
+</section>
+
   );
 };
 
