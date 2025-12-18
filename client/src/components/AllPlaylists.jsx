@@ -149,7 +149,14 @@ const AllPlaylists = () => {
                   {index + 1}
                 </td>
 
-                <td className="px-6 py-4 font-medium">
+                <td
+                  onClick={() => navigate(`/playlist/${playlist.id}`)}
+                  className="
+                    px-6 py-4 font-medium
+                    cursor-pointer
+                    hover:underline
+                  "
+                >
                   {playlist?.name}
                 </td>
 

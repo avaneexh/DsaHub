@@ -58,9 +58,13 @@ export const usePlaylistStore = create((set, get) => ({
 
   getPlaylistDetails: async (playlistId) => {
     try {
+      // console.log("playlistId", playlistId);
+      
       set({ isLoading: true });
-      const response = await axiosInstance.get(`/playlist/${playlistId}`);
-      set({ currentPlaylist: response.data.playList });
+      const res = await axiosInstance.get(`/playlist/${playlistId}`);
+      // console.log("re",res);
+      
+      set({ currentPlaylist: res.data.playlist });
     } catch (error) {
       console.error("Error fetching playlist details:", error);
       toast.error("Failed to fetch playlist details");
