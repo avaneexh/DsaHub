@@ -34,7 +34,7 @@ const PlaylistDetail = () => {
   
 
   return (
-    <section className="w-full px-4 mt-8">
+    <section className="w-full px-4 mt-8 mb-12">
   <div
     className="
       mx-auto max-w-6xl

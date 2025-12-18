@@ -160,7 +160,9 @@ export const usePlaylistStore = create((set, get) => ({
   deletePlaylist: async (playlistId) => {
     try {
       set({ isLoading: true });
-      await axiosInstance.delete(`/playlist/${playlistId}`);
+      console.log("pid", playlistId);
+      
+      await axiosInstance.delete(`/playlist/${playlistId}/delete-playlist`);
 
       set((state) => ({
         playlists: state.playlists.filter((p) => p.id !== playlistId),

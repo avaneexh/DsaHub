@@ -52,7 +52,7 @@ const AllPlaylists = () => {
             {/* Title Row */}
             <div className="flex items-center gap-3">
               <button
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/dashboard")}
                 className="text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white"
               >
                 <ArrowLeft className="h-5 w-5" />
@@ -176,7 +176,7 @@ const AllPlaylists = () => {
                           setPlaylist(playlist)  
                           setOpenEdit(true)
                         }}
-                        className="h-4 w-4"
+                        className="h-4 w-4 cursor-pointer"
                       />
                     </button>
 
@@ -186,7 +186,7 @@ const AllPlaylists = () => {
                           setPlaylist(playlist)
                           setOpenDelete(true)
                         }} 
-                        className="h-4 w-4" 
+                        className="h-4 w-4 cursor-pointer" 
                       />
                     </button>
 
@@ -196,7 +196,7 @@ const AllPlaylists = () => {
                         setOpenAdd(true);
                       }}
                       className="rounded-full border border-neutral-300 dark:border-neutral-700 p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-                        <Plus className="h-4 w-4" />
+                        <Plus className="h-4 w-4 cursor-pointer" />
                     </button>
                   </div>
                 </td>
@@ -228,7 +228,8 @@ const AllPlaylists = () => {
           isOpen={openDelete}
           onClose={() => setOpenDelete(false)}
           onConfirm={async () => {
-            await deletePlaylist(playlist);
+            await deletePlaylist(playlist.id);
+            setOpenDelete(false)
             navigate("/playlists");
           }}
           title="Delete Playlist?"
