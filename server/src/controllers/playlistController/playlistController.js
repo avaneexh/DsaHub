@@ -171,6 +171,10 @@ export const removeProblemFromPlaylist = async (req, res) => {
     const { problemIds } = req.body;
     const userId = req.user.id;
 
+    console.log("playlistId", playlistId);
+    console.log("problemIds", problemIds);
+    
+
     if (!Array.isArray(problemIds) || problemIds.length === 0) {
       return res.status(400).json({ message: "Invalid problem IDs" });
     }

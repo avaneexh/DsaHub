@@ -4,14 +4,18 @@ import { usePlaylistStore } from "../store/usePlaylistStore";
 import CreatePlaylist from "./CreatePlaylist";
 import { useNavigate } from "react-router-dom";
 import AddToPlaylistModal from "./AddToPlaylistModal";
+import EditPlaylistModal from "../components/EditPlaylistModal";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 
 const AllPlaylists = () => {
   const navigate = useNavigate();
-  const { getAllPlaylists, playlists, isLoading } = usePlaylistStore();
+  const { getAllPlaylists, playlists, isLoading, deletePlaylist } = usePlaylistStore();
   const [openAdd, setOpenAdd] = useState(false);
   const [search, setSearch] = useState("");
   const [openCreate, setOpenCreate] = useState(false);
   const [playlist, setPlaylist] = useState(null);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   useEffect(() => {
     getAllPlaylists();
@@ -167,11 +171,23 @@ const AllPlaylists = () => {
                 <td className="px-6 py-4">
                   <div className="flex justify-end gap-2">
                     <button className="rounded-full border border-neutral-300 dark:border-neutral-700 p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-                      <Pencil className="h-4 w-4" />
+                      <Pencil 
+                        onClick={() => {
+                          setPlaylist(playlist)  
+                          setOpenEdit(true)
+                        }}
+                        className="h-4 w-4"
+                      />
                     </button>
 
                     <button className="rounded-full border border-neutral-300 dark:border-neutral-700 p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 
+                        onClick={() => {
+                          setPlaylist(playlist)
+                          setOpenDelete(true)
+                        }} 
+                        className="h-4 w-4" 
+                      />
                     </button>
 
                     <button 
@@ -202,6 +218,23 @@ const AllPlaylists = () => {
         }}
         playlistId={playlist?.id}
       />
+        <EditPlaylistModal
+          isOpen={openEdit}
+          onClose={() => setOpenEdit(false)}
+          playlist={playlist}
+        />
+      
+        <ConfirmDeleteModal
+          isOpen={openDelete}
+          onClose={() => setOpenDelete(false)}
+          onConfirm={async () => {
+            await deletePlaylist(playlist);
+            navigate("/playlists");
+          }}
+          title="Delete Playlist?"
+          description="This action cannot be undone."
+        />
+
     </section>
   );
 };

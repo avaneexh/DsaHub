@@ -96,8 +96,10 @@ export const usePlaylistStore = create((set, get) => ({
 
   removeProblemFromPlaylist: async (playlistId, problemIds) => {
     try {
+      // console.log("problemIds",problemIds, playlistId);
+      
       set({ isLoading: true });
-      await axiosInstance.post(`/playlist/${playlistId}/remove-problems`, {
+      await axiosInstance.post(`/playlist/${playlistId}/remove-problem`, {
         problemIds,
       });
 
@@ -118,20 +120,25 @@ export const usePlaylistStore = create((set, get) => ({
   updatePlaylist: async (playlistId, updateData) => {
     try {
       set({ isLoading: true });
+
       const response = await axiosInstance.patch(
         `/playlist/${playlistId}`,
         updateData
       );
 
-      // Update the playlist in the state
       set((state) => ({
         playlists: state.playlists.map((playlist) =>
-          playlist.id === playlistId ? response.data.playlist : playlist
+          playlist.id === playlistId
+            ? { ...playlist, ...response.data.playlist }
+            : playlist
         ),
-        // If this is the current playlist being viewed, update it too
+
         currentPlaylist:
           state.currentPlaylist?.id === playlistId
-            ? response.data.playlist
+            ? {
+                ...state.currentPlaylist,    
+                ...response.data.playlist,
+              }
             : state.currentPlaylist,
       }));
 
@@ -139,19 +146,15 @@ export const usePlaylistStore = create((set, get) => ({
       return response.data.playlist;
     } catch (error) {
       console.error("Error updating playlist:", error);
-
-      // Handle specific errors
-      if (error.response?.status === 400) {
-        toast.error(error.response.data.message || "Failed to update playlist");
-      } else {
-        toast.error("Failed to update playlist");
-      }
-
+      toast.error(
+        error.response?.data?.message || "Failed to update playlist"
+      );
       throw error;
     } finally {
       set({ isLoading: false });
     }
   },
+
 
 
   deletePlaylist: async (playlistId) => {

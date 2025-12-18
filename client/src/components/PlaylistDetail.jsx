@@ -30,7 +30,7 @@ const PlaylistDetail = () => {
     return <div className="p-6">Loading...</div>;
   }
 
-  console.log("currentPlaylist",currentPlaylist);
+//   console.log("currentPlaylist",currentPlaylist);
   
 
   return (
@@ -73,7 +73,7 @@ const PlaylistDetail = () => {
       <table className="min-w-full border-separate border-spacing-0 text-sm">
         <thead>
           <tr className="text-left text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-            <th className="px-5 py-3 sm:px-8">#</th>
+            <th className="px-5 py-3 sm:px-8">S.No</th>
             <th className="px-5 py-3 sm:px-8">Title</th>
             <th className="px-5 py-3 sm:px-8">Tags</th>
             <th className="px-5 py-3 sm:px-8">Actions</th>

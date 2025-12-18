@@ -24,7 +24,7 @@ playlistRoutes.post(
   addProblemToPlaylist
 );
 
-playlistRoutes.delete(
+playlistRoutes.post(
   "/:playlistId/remove-problem",
   authMiddleware,
   removeProblemFromPlaylist
