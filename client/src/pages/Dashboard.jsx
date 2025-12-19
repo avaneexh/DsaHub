@@ -11,7 +11,7 @@ const Dashboard = () => {
     getAllProblems();
   }, [getAllProblems]);
 
-  console.log("Problems", problems);
+  // console.log("Problems", problems);
   
   if(isProblemsLoading){
     return (

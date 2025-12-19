@@ -14,7 +14,7 @@ const UserCard = () => {
   const initial = name?.trim()?.charAt(0)?.toUpperCase() || "?";
   const navigate = useNavigate(); 
 
-  if (isCheckingAuth) {
+  if (!authUser || isCheckingAuth) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />
