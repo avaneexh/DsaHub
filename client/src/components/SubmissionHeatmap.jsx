@@ -46,14 +46,14 @@ const SubmissionHeatmap = () => {
   }, [heatmapData]);
 
   return (
-    <div className="w-full rounded-3xl border border-neutral-300/60 dark:border-neutral-700 bg-white/70 dark:bg-neutral-900/80 backdrop-blur p-6">
+    <div className="w-full rounded-3xl border border-neutral-300/60 dark:border-neutral-700 bg-neutral-100/60 dark:bg-neutral-900/80 backdrop-blur p-6">
     <h2 className="flex items-center gap-2 mb-6 text-sm font-medium text-neutral-800 dark:text-neutral-200">
         <Calendar className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />
         Submission Activity
     </h2>
 
     {submissions && submissions.length > 0 ? (
-        <div className="rounded-xl border border-neutral-300/60 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-4 overflow-x-auto">
+        <div className="rounded-xl border border-neutral-300/60 dark:border-neutral-700 bg-neutral-100/60 dark:bg-neutral-900 p-4 overflow-x-auto">
         <CalendarHeatmap
             startDate={startDate}
             endDate={endDate}
@@ -80,7 +80,7 @@ const SubmissionHeatmap = () => {
 
         <Tooltip
             id="submission-tooltip"
-            className="!bg-neutral-900 !text-white !text-xs !rounded-md !px-2 !py-1"
+            className="bg-neutral-900! text-white! text-xs! rounded-md! px-2! py-1!"
             place="top"
         />
         </div>
