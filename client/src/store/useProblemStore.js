@@ -8,6 +8,10 @@ export const useProblemStore = create((set) => ({
   solvedProblems: [],
   isProblemLoading: false,
   isProblemsLoading: false,
+  isAllProblemsCountLoading: false, 
+  allProblemsCount : 0,
+  solvedProblemsCount : 0,
+  
 
   getAllProblems: async () => {
     set({ isProblemsLoading: true });
@@ -35,24 +39,17 @@ export const useProblemStore = create((set) => ({
     }
   },
 
-  getSolvedProblems: async () => {
-    set({ isProblemsLoading: true });
-    try {
-      const response = await axiosInstance.get(`/problems/getSolvedProblem`);
-      set({ solvedProblems: response.data.problems });
-    } catch (error) {
-      set({ isProblemsLoading: false });
-      toast.error("Failed to fetch solved problems");
-    } finally {
-      set({ isProblemsLoading: false });
-    }
-  },
-
+ 
   getSolvedProblemByUser: async () => {
     try {
-      const res = await axiosInstance.get("/problems/get-solved-problems");
-      console.log("Solved problems:", res.data);
-      set({ solvedProblems: res.data.data });
+      const res = await axiosInstance.get("/problems/getSolvedProblem");
+      console.log("Solved problems:", res.data.counts);
+      const { allProblemsCount, solvedProblemsCount } = res.data.counts;
+
+      set({
+        allProblemsCount,
+        solvedProblemsCount,
+      });
     } catch (error) {
       console.log("Error getting solved problems", error);
       toast.error("Error getting solved problems");

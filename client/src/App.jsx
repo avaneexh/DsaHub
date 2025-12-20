@@ -14,15 +14,19 @@ import ProblemPage from './pages/ProblemPage';
 import PlaylistsPage from './pages/PlaylistsPage';
 import PlaylistDetail from './components/PlaylistDetail';
 import ProfilePage from './pages/ProfilePage';
+import { useProblemStore } from './store/useProblemStore';
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const {getSolvedProblemByUser, getAllProblems, isProblemsLoading, isAllProblemsCountLoading } = useProblemStore();
 
 
   useEffect(() => {
     checkAuth();
+    getSolvedProblemByUser();
+    getAllProblems(); 
   }, [checkAuth]);
-  if (isCheckingAuth) {
+  if (isCheckingAuth || isAllProblemsCountLoading ) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />

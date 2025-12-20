@@ -3,12 +3,13 @@ import { useAuthStore } from "../store/useAuthStore";
 import { Loader } from "lucide-react";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useProblemStore } from '../store/useProblemStore';
 
 
 
 const UserCard = ({page = "dashboard"}) => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-
+  const {getSolvedProblemByUser, isAllProblemsCountLoading, solvedProblemsCount, allProblemsCount } = useProblemStore();
   const name = authUser?.name || authUser?.username || "Guest";
   const email = authUser?.email || "guest@example.com";
   const initial = name?.trim()?.charAt(0)?.toUpperCase() || "?";
