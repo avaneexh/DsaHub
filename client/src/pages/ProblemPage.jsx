@@ -409,7 +409,6 @@ const ProblemPage = () => {
                   </div>
                 </div>
 
-                {/* visual hover hit area (optional subtle bg on hover) */}
                 <style jsx>{`
                   /* optional: subtle highlight when hovering the resizer */
                   .group:hover { background-color: rgba(0,0,0,0.02); }

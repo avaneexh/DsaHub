@@ -28,3 +28,47 @@ export const formatSubmissionStatus = (status) => {
       return status;
   }
 };
+
+export const formatTestCasesFromSubmission = (submission) => {
+  if (!submission) return [];
+
+  const parseJSON = (value, fallback = []) => {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return fallback;
+    }
+  };
+
+  const inputs = submission.stdin
+    ? submission.stdin
+        .split("\n")
+        .map((i) => i.trim())
+        .filter(Boolean)
+    : [];
+
+  const outputs = parseJSON(submission.stdout);
+  const times = parseJSON(submission.time);
+  const memories = parseJSON(submission.memory);
+
+  const maxLen = Math.max(
+    inputs.length,
+    outputs.length,
+    times.length,
+    memories.length
+  );
+
+  return Array.from({ length: maxLen }).map((_, idx) => {
+    const expected = outputs[idx] ?? "N/A";
+    const actual = outputs[idx] ?? "N/A";
+
+    return {
+      input: inputs[idx] ?? "N/A",
+      expected,
+      stdout: actual,
+      time: times[idx] ?? "—",
+      memory: memories[idx] ?? "—",
+      passed: submission.status === "ACCEPTED",
+    };
+  });
+};
