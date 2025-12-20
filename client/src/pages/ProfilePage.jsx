@@ -4,6 +4,7 @@ import SubmissionHeatmap from "../components/SubmissionHeatmap";
 import { useAuthStore } from "../store/useAuthStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import { Loader } from "lucide-react";
+import ProfileSubmissions from "../components/ProfileSubmissions";
 
 const ProfilePage = () => {
   const { isCheckingAuth } = useAuthStore();
@@ -26,6 +27,7 @@ const ProfilePage = () => {
       <div className="w-full max-w-5xl flex flex-col items-center gap-6 px-4 py-10">
         <UserCard page="profile" />
         <SubmissionHeatmap />
+        <ProfileSubmissions/>
       </div>
     </div>
   );
