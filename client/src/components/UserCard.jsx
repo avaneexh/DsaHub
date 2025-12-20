@@ -6,13 +6,21 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const UserCard = () => {
+const UserCard = ({page = "dashboard"}) => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
   const name = authUser?.name || authUser?.username || "Guest";
   const email = authUser?.email || "guest@example.com";
   const initial = name?.trim()?.charAt(0)?.toUpperCase() || "?";
   const navigate = useNavigate(); 
+
+  const handleClick = () => {
+    if (page === "profile") {
+      navigate("/dashboard");
+    } else {
+      navigate("/profile");
+    }
+  };
 
   if (!authUser || isCheckingAuth) {
     return (
@@ -69,8 +77,9 @@ const UserCard = () => {
                   hover:-translate-y-0.5 hover:shadow-md
                   dark:border-neutral-100
                 "
+                onClick={handleClick}
               >
-                Profile
+                {page === "dashboard" ? "Profile" : "Dashboard"}
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
 

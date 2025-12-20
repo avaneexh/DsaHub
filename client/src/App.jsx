@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import ProblemPage from './pages/ProblemPage';
 import PlaylistsPage from './pages/PlaylistsPage';
 import PlaylistDetail from './components/PlaylistDetail';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -41,6 +42,10 @@ function App() {
           <Route
             path = '/dashboard'
             element={authUser ? <Dashboard/> : <Navigate to="/login"/>}
+          />
+          <Route
+            path = '/profile'
+            element={authUser ? <ProfilePage/> : <Navigate to="/login"/>}
           />
           <Route
             path = '/playlists'

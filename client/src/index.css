@@ -3,3 +3,51 @@
 @tailwind utilities;
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Base */
+.react-calendar-heatmap rect {
+  rx: 3px;
+}
+
+/* Empty cells */
+.heatmap-empty {
+  fill: #e5e7eb; /* neutral-200 */
+}
+
+.dark .heatmap-empty {
+  fill: #262626; /* neutral-800 */
+}
+
+/* Intensity scale */
+.heatmap-scale-1 {
+  fill: #d4d4d4; /* neutral-300 */
+}
+
+.heatmap-scale-2 {
+  fill: #a3a3a3; /* neutral-400 */
+}
+
+.heatmap-scale-3 {
+  fill: #525252; /* neutral-600 */
+}
+
+.heatmap-scale-4 {
+  fill: #171717; /* neutral-900 */
+}
+
+/* Dark mode overrides */
+.dark .heatmap-scale-1 {
+  fill: #404040; /* neutral-700 */
+}
+
+.dark .heatmap-scale-2 {
+  fill: #737373; /* neutral-500 */
+}
+
+.dark .heatmap-scale-3 {
+  fill: #a3a3a3; /* neutral-400 */
+}
+
+.dark .heatmap-scale-4 {
+  fill: #f5f5f5; /* neutral-100 */
+}

@@ -3,9 +3,11 @@ import UserCard from '../components/UserCard'
 import { useProblemStore } from '../store/useProblemStore';
 import { Loader } from "lucide-react";
 import AllProblems from '../components/AllProblems';
+import { useAuthStore } from '../store/useAuthStore';
 
 const Dashboard = () => {
   const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
     getAllProblems();
@@ -13,10 +15,10 @@ const Dashboard = () => {
 
   // console.log("Problems", problems);
   
-  if(isProblemsLoading){
+  if(isProblemsLoading || isCheckingAuth){
     return (
       <div className="flex items-center justify-center h-screen">
-          <Loader className="size-10 animate-spin"/>
+          <Loader className="w-12 h-12 animate-spin text-blue-500" />
       </div>
     )
   }
