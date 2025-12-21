@@ -1,14 +1,16 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
-import { Calendar } from "lucide-react";
+import { Calendar, Loader } from "lucide-react";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import { Tooltip } from "react-tooltip";
 
 const SubmissionHeatmap = () => {
-  const { submissions } = useSubmissionStore();
-  console.log("submissions",submissions);
-  
+  const { submissions, isLoading, getAllSubmissions } = useSubmissionStore();
+//   console.log("submissions",submissions);
+  useEffect(() => {
+    getAllSubmissions();
+  }, []);
 
   // Prepare data for the heatmap
   const heatmapData = useMemo(() => {
@@ -44,7 +46,13 @@ const SubmissionHeatmap = () => {
     if (heatmapData.length === 0) return 0;
     return Math.max(...heatmapData.map((data) => data.count));
   }, [heatmapData]);
-
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="w-12 h-12 animate-spin text-blue-500" />
+      </div>
+    );
+  }
   return (
     <div className="w-full rounded-3xl border border-neutral-300/60 dark:border-neutral-700 bg-neutral-100/60 dark:bg-neutral-900/80 backdrop-blur p-4">
     <h2 className="flex items-center gap-2 mb-6 text-sm font-medium text-neutral-800 dark:text-neutral-200">

@@ -60,8 +60,6 @@ const ProfileSubmission = () => {
 
 //   console.log("submissions",submissions);
   
-
-  /* ---------------- Helpers ---------------- */
   const helpers = useMemo(
     () => ({
       statusStyle: (status) => {
@@ -114,7 +112,6 @@ const ProfileSubmission = () => {
 
   const editorTheme = "light" === "light" ? "vs-light" : "vs-dark";
 
-  /* ---------------- Computed ---------------- */
   const filteredSubmissions = useMemo(
     () => submissions.filter((s) => filter === "all" || s.status === filter),
     [submissions, filter]
@@ -131,7 +128,6 @@ const ProfileSubmission = () => {
   const toggleExpand = (id) =>
     setExpandedSubmission((prev) => (prev === id ? null : id));
 
-  /* ---------------- UI ---------------- */
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}

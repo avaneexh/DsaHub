@@ -23,10 +23,8 @@ function App() {
 
   useEffect(() => {
     checkAuth();
-    getSolvedProblemByUser();
-    getAllProblems(); 
   }, [checkAuth]);
-  if (isCheckingAuth || isAllProblemsCountLoading ) {
+  if (isCheckingAuth ) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />
@@ -41,7 +39,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route
             index
-            element={authUser ? <HomePage /> : <Navigate to="/login" />}
+            element={authUser ? <Navigate to="/dashboard"/> : <Navigate to="/lander"/>}
           />
           <Route
             path = '/dashboard'
@@ -60,18 +58,22 @@ function App() {
             element={authUser ? <PlaylistDetail/> : <Navigate to="/login"/>}
           />
         </Route>
-        <Route 
-          path = '/login'
-          element={!authUser ? <LoginPage/> :  <Navigate to ="/"/> }
-        />
-        <Route 
-          path = '/signup'
-          element={!authUser ? <SignUpPage/> : <Navigate to ="/"/>}
-        />
         <Route
-            path = '/solve/:id'
-            element={authUser ? <ProblemPage/> : <Navigate to="/login"/>}
+          path="/login"
+          element={!authUser ? <LoginPage /> : <Navigate to="/dashboard" replace />}
         />
+
+        <Route
+          path="/signup"
+          element={!authUser ? <SignUpPage /> : <Navigate to="/dashboard" replace />}
+        />
+
+        <Route
+          path="/lander"
+          element={<HomePage />}
+        />
+
+        
         <Route element={<AdminRoute />}>
           <Route
             path="/addProblem"

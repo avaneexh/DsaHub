@@ -43,13 +43,10 @@ export const useProblemStore = create((set) => ({
   getSolvedProblemByUser: async () => {
     try {
       const res = await axiosInstance.get("/problems/getSolvedProblem");
-      console.log("Solved problems:", res.data.counts);
-      const { allProblemsCount, solvedProblemsCount } = res.data.counts;
+      const { solvedProblems, totalProblems } = res.data.counts;
 
-      set({
-        allProblemsCount,
-        solvedProblemsCount,
-      });
+      // console.log("Solved problems:", solvedProblems, totalProblems );
+      set({allProblemsCount: totalProblems,solvedProblemsCount: solvedProblems,});
     } catch (error) {
       console.log("Error getting solved problems", error);
       toast.error("Error getting solved problems");

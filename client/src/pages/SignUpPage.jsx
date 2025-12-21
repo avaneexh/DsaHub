@@ -30,7 +30,7 @@ export default function SignUp() {
 
   const { signUp, isSigningUp } = useAuthStore();
 
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
 
   const navigate = useNavigate();
@@ -113,19 +113,6 @@ export default function SignUp() {
                 <p className="text-sm text-neutral-500 dark:text-neutral-300">
                   Sign up to start training — it’s free to start.
                 </p>
-              </div>
-
-              <div className="ml-auto">
-                <button
-                  type="button"
-                  onClick={() => setIsDark((prev) => !prev)}
-                  aria-pressed={isDark}
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-md border text-sm
-                    bg-transparent border-neutral-200 dark:border-neutral-700
-                    hover:opacity-90 transition"
-                >
-                  {isDark ? "Light" : "Dark"}
-                </button>
               </div>
             </div>
 

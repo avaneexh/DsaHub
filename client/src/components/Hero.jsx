@@ -1,7 +1,10 @@
 import React from "react";
 import { Star, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
+  const navigate = useNavigate(); 
+  
   return (
     <section className="w-full bg-linear-to-b from-gray-50 to-white dark:from-slate-900 dark:to-black">
       <div className="mx-auto max-w-7xl px-6 py-20 lg:py-20">
@@ -28,14 +31,14 @@ export default function Hero() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a
-                href="#get-started"
+              <button
                 className="inline-flex items-center gap-3 rounded-2xl bg-black text-white px-5 py-3 text-sm font-medium shadow-lg hover:opacity-95 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 dark:bg-white dark:text-black"
                 aria-label="Get started with DsaHub"
+                onClick={()=> navigate("/dashboard")}
               >
-                ✦ Get Started
+                Get Started
                 <ArrowRight size={18} className="ml-1" />
-              </a>
+              </button>
 
               <a
                 href="#learn-more"

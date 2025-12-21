@@ -4,7 +4,7 @@ import { Loader } from "lucide-react";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useProblemStore } from '../store/useProblemStore';
-
+import SolvedProgressRing from "./SolvedProgressRing";
 
 
 const UserCard = ({page = "dashboard"}) => {
@@ -15,6 +15,13 @@ const UserCard = ({page = "dashboard"}) => {
   const initial = name?.trim()?.charAt(0)?.toUpperCase() || "?";
   const navigate = useNavigate(); 
 
+  useEffect(() => {
+    getSolvedProblemByUser();
+  }, [getSolvedProblemByUser]);
+
+  // console.log("solvedProblemsCount, allProblemsCount ", solvedProblemsCount, allProblemsCount );
+  
+
   const handleClick = () => {
     if (page === "profile") {
       navigate("/dashboard");
@@ -23,10 +30,10 @@ const UserCard = ({page = "dashboard"}) => {
     }
   };
 
-  if (!authUser || isCheckingAuth) {
+  if (!authUser || isCheckingAuth || isAllProblemsCountLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
+        <Loader className="w-12 h-12 animate-spin text-blue-500" />
       </div>
     );
   }
@@ -42,7 +49,7 @@ const UserCard = ({page = "dashboard"}) => {
           dark:bg-neutral-900/80 dark:text-neutral-50 dark:border-neutral-500/70
         "
       >
-        <div className="flex flex-col items-start gap-4 px-5 py-4 sm:flex-row sm:items-center sm:gap-6 sm:px-8 sm:py-6">
+        <div className="flex flex-col gap-6 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-6">
         
           <div
             className="
@@ -103,6 +110,13 @@ const UserCard = ({page = "dashboard"}) => {
 
             </div>
           </div>
+          <div className="flex items-center justify-center">
+            <SolvedProgressRing
+              solved={solvedProblemsCount}
+              total={allProblemsCount}
+            />
+          </div>
+
         </div>
       </div>
     </section>
