@@ -49,7 +49,7 @@ export const useProblemStore = create((set) => ({
       set({allProblemsCount: totalProblems,solvedProblemsCount: solvedProblems,});
     } catch (error) {
       console.log("Error getting solved problems", error);
-      toast.error("Error getting solved problems");
+      // toast.error("Error getting solved problems");
     }
   },
 }));
