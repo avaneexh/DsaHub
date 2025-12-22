@@ -21,7 +21,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://dsahub.onrender.com"
+      "https://dsahub.onrender.com",
     ],
     credentials: true
   })
