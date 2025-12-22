@@ -18,11 +18,15 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-    cors({
-        origin:"http://localhost:5173",
-        credentials:true
-    })
-)
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://dsahub.onrender.com"
+    ],
+    credentials: true
+  })
+);
+
 app.get("/", (req, res) =>{
     res.send("Hello From DsaHub🔥🔥")
 })
