@@ -67,6 +67,10 @@ function App() {
           path="/signup"
           element={!authUser ? <SignUpPage /> : <Navigate to="/dashboard" replace />}
         />
+        <Route
+          path = '/solve/:id'
+          element={authUser ? <ProblemPage/> : <Navigate to="/login"/>}
+        />
 
         <Route
           path="/lander"
