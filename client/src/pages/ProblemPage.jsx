@@ -273,9 +273,36 @@ const ProblemPage = () => {
   };
 
   return (
-    <div className="max-h-screen overflow-auto hide-scrollbar"> 
+    <div className="max-h-screen"> 
+      <div className="w-full">
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent 
+                          animate-[shimmer_2.5s_linear_infinite]" />
+
+          <div
+            className="flex items-center justify-center gap-2
+                      h-10 px-4
+                      bg-linear-to-r from-amber-100 to-yellow-100
+                      text-amber-900 text-sm font-medium
+                      border-b border-amber-200
+                      transition-all duration-300
+                      hover:brightness-105 hover:shadow-sm"
+          >
+            {/* status dot */}
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75 animate-ping"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
+
+            <span>
+              Code execution service is down for now
+            </span>
+          </div>
+        </div>
+      </div>
       <Navbar />
-      <div className="max-h-screen bg-neutral-50 dark:bg-neutral-950 ">
+
+      <div className="max-h-screen bg-neutral-50 dark:bg-neutral-950 overflow-auto hide-scrollbar">
         <div className="mx-auto px-4" ref={containerRef}>
           <div
             style={{
