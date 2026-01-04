@@ -475,8 +475,8 @@ const ProblemPage = () => {
               className="flex-1 rounded-lg  border border-neutral-300/60 bg-neutral-100/60 dark:bg-neutral-900/80 dark:border-neutral-700 shadow flex flex-col overflow-hidden right-pane"
               style={{ minWidth: 360, height: "100%", minHeight: 0 }}
             >
-              <div className="p-4 border-b border-neutral-200/60 dark:border-neutral-700/60 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+              <div className="p-4 border-b border-neutral-200/60 dark:border-neutral-700/60 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3 min-w-0">
                   <div
                     className="
                       inline-flex items-center justify-center 
@@ -490,12 +490,13 @@ const ProblemPage = () => {
                     <Terminal className="w-5 h-5" />
                   </div>
 
-                  <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200">
-                    Write your code here
+                  <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 truncate">
+                    Write your code
                   </h3>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
+                 
                   <select
                     className="
                       rounded-full 
@@ -519,17 +520,29 @@ const ProblemPage = () => {
                       </option>
                     ))}
                   </select>
-                </div>
-                <button
-                  onClick={handleShare}
-                  className="inline-flex items-center rounded-full px-3 py-1.5 gap-2 border border-neutral-300 text-neutral-700 dark:border-neutral-700 dark:text-neutral-300"
-                >
-                  <Share2 className="w-4 h-4" />
-                </button>
 
+                  <button
+                    onClick={handleShare}
+                    title="Collaborate"
+                    className="
+                      inline-flex items-center justify-center
+                      rounded-full 
+                      w-9 h-9
+                      border border-neutral-300 
+                      text-neutral-700 
+                      hover:bg-neutral-100
+                      transition
+                      dark:border-neutral-700 
+                      dark:text-neutral-300 
+                      dark:hover:bg-neutral-800
+                    "
+                  >
+                    <Users className="w-4.5 h-4.5" />
+                  </button>
+                </div>
               </div>
 
-              {/* Editor area (flexed) */}
+
               <div
                 className="editor-area"
                 style={{
