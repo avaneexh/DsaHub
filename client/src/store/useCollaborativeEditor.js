@@ -2,20 +2,19 @@ import { useEffect } from "react";
 import { socket } from "../lib/socket";
 import { useAuthStore } from "../store/useAuthStore";
 
-export const useCollaborativeEditor = ({
-  roomId,
-  setCode,
-}) => {
+export const useCollaborativeEditor = ({ roomId, setCode }) => {
   const { authUser } = useAuthStore();
 
   useEffect(() => {
     if (!roomId || !authUser) return;
 
-    socket.connect();
+    if (!socket.connected) {
+      socket.connect();
+    }
 
     socket.emit("join-room", {
       roomId,
-      userId: authUser.id,
+      userId: authUser._id || authUser.id,
     });
 
     socket.on("code-update", (newCode) => {
@@ -24,7 +23,6 @@ export const useCollaborativeEditor = ({
 
     return () => {
       socket.off("code-update");
-      socket.disconnect();
     };
-  }, [roomId, authUser]);
+  }, [roomId, authUser, setCode]);
 };
