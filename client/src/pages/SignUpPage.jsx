@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {  Eye, EyeOff } from "lucide-react"
 import { useAuthStore } from "../store/useAuthStore";
+
 
 const SignUpSchema = z
   .object({
@@ -34,6 +35,7 @@ export default function SignUp() {
 
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -43,15 +45,18 @@ export default function SignUp() {
     resolver: zodResolver(SignUpSchema),
   });
 
+
   const onSubmit = async (payload) => {
     try {
       await signUp(payload);
-      navigate("/login");
-      console.log("sign up payload", payload);
+
+      const redirectTo = location.state?.from || "/";
+      navigate(redirectTo, { replace: true });
     } catch (err) {
       console.error("Sign up error:", err);
     }
   };
+
 
   useEffect(() => {
     if (typeof document !== "undefined") {

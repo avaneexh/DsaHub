@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {  Eye, EyeOff } from "lucide-react"
 import { useAuthStore } from "../store/useAuthStore";
 
@@ -20,6 +20,7 @@ export default function Login() {
   const { login, isLoggingIn } = useAuthStore();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -29,16 +30,19 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
+
+
   const onSubmit = async (payload) => {
     try {
-      console.log("sign in payload", payload);
       await login(payload);
-      console.log("sign in payload", payload);
-      navigate("/");
+
+      const redirectTo = location.state?.from || "/";
+      navigate(redirectTo, { replace: true });
     } catch (err) {
       console.error("Sign in error:", err);
     }
   };
+
 
   useEffect(() => {
     if (typeof document !== "undefined") {

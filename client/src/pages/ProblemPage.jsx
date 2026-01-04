@@ -1,4 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { socket } from "../lib/socket";
+import { useCollaborativeEditor } from "../store/useCollaborativeEditor";
+import toast from "react-hot-toast";
 import Editor from "@monaco-editor/react";
 import {
   Play,
@@ -51,6 +55,16 @@ const ProblemPage = () => {
   const [isResizing, setIsResizing] = useState(false);
   const [editorProportion, setEditorProportion] = useState(0.7);
   const [isVertResizing, setIsVertResizing] = useState(false);
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get("session");
+
+  const roomId = sessionId ? `${id}-${sessionId}` : null;
+
+  useCollaborativeEditor({
+    roomId,
+    setCode,
+  });
+
 
   useEffect(() => {
     getProblemById(id);
@@ -85,7 +99,6 @@ const ProblemPage = () => {
       const isDark = document.documentElement.classList.contains("dark");
       setEditorTheme(isDark ? "vs-dark" : "light");
     } catch (e) {
-      // fallback
       setEditorTheme("vs-dark");
     }
   }, []);
@@ -132,6 +145,25 @@ const ProblemPage = () => {
     }
   };
 
+  const handleEditorChange = (value) => {
+    const updatedCode = value || "";
+    setCode(updatedCode);
+
+    if (roomId) {
+      socket.emit("code-change", {
+        roomId,
+        code: updatedCode,
+      });
+    }
+  };
+
+  const handleShare = async () => {
+    const sessionId = crypto.randomUUID();
+    const shareLink = `${window.location.origin}/solve/${id}?session=${sessionId}`;
+
+    await navigator.clipboard.writeText(shareLink);
+    toast.success("Collaboration link copied!");
+  };
 
   useEffect(() => {
     function onMouseMove(e) {
@@ -171,7 +203,6 @@ const ProblemPage = () => {
   }, []);
 
 
-  // Vertical mouse move handler for editor/testcases split inside right pane
   useEffect(() => {
     function onMouseMove(e) {
       if (!isVertResizing || !containerRef.current) return;
@@ -288,7 +319,6 @@ const ProblemPage = () => {
                       transition-all duration-300
                       hover:brightness-105 hover:shadow-sm"
           >
-            {/* status dot */}
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75 animate-ping"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
@@ -406,13 +436,11 @@ const ProblemPage = () => {
                 </div>
               </div>
 
-              {/* Scrollable description content */}
               <div className="p-6 overflow-auto" style={{ maxHeight: "100%", minHeight: 0 }}>
                 {renderTabContent()}
               </div>
             </div>
 
-            {/* Vertical resizer between left & right (only on lg and above) */}
             <div className="hidden lg:flex items-stretch">
               <div
                 onMouseDown={() => {
@@ -425,11 +453,8 @@ const ProblemPage = () => {
                 className="w-2 cursor-col-resize bg-transparent group"
                 aria-hidden
               >
-                {/* click area is a bit wider for easier dragging; visible handle is centered */}
                 <div className="h-full flex items-center justify-center">
-                  {/* handle wrapper: centered, pointer-events-none so drag still hits parent div */}
                   <div className="pointer-events-none flex flex-col items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                    {/* dot size + bg adapt to dark/light */}
                     <span className="block w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600"></span>
                     <span className="block w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600"></span>
                     <span className="block w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600"></span>
@@ -446,7 +471,6 @@ const ProblemPage = () => {
               </div>
             </div>
 
-            {/* RIGHT: editor + testcases */}
             <div
               className="flex-1 rounded-lg  border border-neutral-300/60 bg-neutral-100/60 dark:bg-neutral-900/80 dark:border-neutral-700 shadow flex flex-col overflow-hidden right-pane"
               style={{ minWidth: 360, height: "100%", minHeight: 0 }}
@@ -496,6 +520,13 @@ const ProblemPage = () => {
                     ))}
                   </select>
                 </div>
+                <button
+                  onClick={handleShare}
+                  className="inline-flex items-center rounded-full px-3 py-1.5 gap-2 border border-neutral-300 text-neutral-700 dark:border-neutral-700 dark:text-neutral-300"
+                >
+                  <Share2 className="w-4 h-4" />
+                </button>
+
               </div>
 
               {/* Editor area (flexed) */}
@@ -506,20 +537,20 @@ const ProblemPage = () => {
                   minHeight: 0, // critical: allow child to scroll inside constrained flex container
                 }}
               >
-                <Editor
+               <Editor
                   height="100%"
                   language={selectedLanguage.toLowerCase()}
                   theme={editorTheme}
                   value={code}
-                  onChange={(value) => setCode(value || "")}
+                  onChange={handleEditorChange}
                   options={{
                     minimap: { enabled: false },
                     fontSize: 14,
-                    lineNumbers: "on",
                     scrollBeyondLastLine: false,
                     automaticLayout: true,
                   }}
-                />
+               />
+
               </div>
 
               {/* Horizontal resizer inside right pane */}
