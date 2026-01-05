@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { socket } from "../lib/socket";
 import { useCollaborativeEditor } from "../store/useCollaborativeEditor";
 import toast from "react-hot-toast";
@@ -32,6 +32,8 @@ import Navbar from "../components/Navbar";
 const ProblemPage = () => {
   const { id } = useParams();
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     submission: submissions,
@@ -43,7 +45,7 @@ const ProblemPage = () => {
   
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
+  const [selectedLanguage, setSelectedLanguage] = useState("");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testCases, setTestCases] = useState([]);
   const [editorTheme, setEditorTheme] = useState("vs-dark");
@@ -63,6 +65,7 @@ const ProblemPage = () => {
   useCollaborativeEditor({
     roomId,
     setCode,
+    setSelectedLanguage,
   });
 
 
@@ -87,6 +90,17 @@ const ProblemPage = () => {
     
   }, [problem, selectedLanguage]);
   
+  useEffect(() => {
+    if (!problem) return;
+
+    const availableLanguages = Object.keys(problem.codeSnippets || {});
+    if (availableLanguages.length === 0) return;
+
+    const defaultLang = availableLanguages[0].toLowerCase();
+
+    setSelectedLanguage(defaultLang);
+    setCode(problem.codeSnippets[availableLanguages[0]]);
+  }, [problem]);
 
   useEffect(() => {
     if (activeTab === "submissions" && id) {
@@ -106,8 +120,17 @@ const ProblemPage = () => {
   const handleLanguageChange = (e) => {
     const lang = e.target.value;
     setSelectedLanguage(lang);
-    setCode(problem?.codeSnippets?.[lang] || "");
+    setCode(problem.codeSnippets?.[lang.toUpperCase()] || "");
+
+    if (roomId) {
+      socket.emit("language-change", {
+        roomId,
+        language: lang,
+        code: problem.codeSnippets?.[lang.toUpperCase()] || "",
+      });
+    }
   };
+
 
   const handleRunCode = (e) => {
     e.preventDefault();
@@ -153,16 +176,23 @@ const ProblemPage = () => {
       socket.emit("code-change", {
         roomId,
         code: updatedCode,
+        language: selectedLanguage,
       });
     }
   };
 
+
   const handleShare = async () => {
     const sessionId = crypto.randomUUID();
-    const shareLink = `${window.location.origin}/solve/${id}?session=${sessionId}`;
 
-    await navigator.clipboard.writeText(shareLink);
-    toast.success("Collaboration link copied!");
+    const collabUrl = `/solve/${id}?session=${sessionId}`;
+
+    navigate(collabUrl, { replace: true });
+
+    const fullLink = `${window.location.origin}${collabUrl}`;
+    await navigator.clipboard.writeText(fullLink);
+
+    toast.success("Collaboration room created & link copied!");
   };
 
   useEffect(() => {
@@ -547,7 +577,7 @@ const ProblemPage = () => {
                 className="editor-area"
                 style={{
                   flex: `${editorProportion} 1 0%`,
-                  minHeight: 0, // critical: allow child to scroll inside constrained flex container
+                  minHeight: 0, 
                 }}
               >
                <Editor

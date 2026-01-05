@@ -43,6 +43,6 @@ const server = http.createServer(app);
 
 initCollabSocket(server);
 
-app.listen(process.env.PORT, ()=> {
+server.listen(process.env.PORT, ()=> {
     console.log("Server is running on port 8000")
 })
