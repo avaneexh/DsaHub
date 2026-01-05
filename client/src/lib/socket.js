@@ -1,4 +1,3 @@
-console.log("🔥 socket file loaded");
 import { io } from "socket.io-client";
 import { env } from "../env";
 
@@ -11,4 +10,3 @@ export const socket = io(SOCKET_URL, {
   autoConnect: false,
   transports: ["websocket"],
 });
-console.log("🔥 socket instance created", socket);

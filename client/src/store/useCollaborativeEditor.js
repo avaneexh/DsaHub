@@ -6,7 +6,6 @@ export const useCollaborativeEditor = ({ roomId, setCode, setSelectedLanguage, }
   const { authUser } = useAuthStore();
 
   useEffect(() => {
-    console.log("🔥 useCollaborativeEditor hook loaded", { roomId, authUser });
 
     if (!roomId || !authUser) return;
 
