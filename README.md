@@ -179,23 +179,6 @@ npm run dev
 
 ---
 
-## 📸 Screenshots
-
-### Home Page
-
-_Add screenshot here_
-
-### Problems Page
-
-_Add screenshot here_
-
-### Dashboard
-
-_Add screenshot here_
-
-### Leaderboard
-
-_Add screenshot here_
 
 ---
 
