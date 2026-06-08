@@ -237,7 +237,7 @@ This project is licensed under the MIT License.
 
 Full Stack Developer | MERN Stack Developer
 
-- GitHub: https://github.com/your-github-username
+- GitHub: https://github.com/avaneexh
 - LinkedIn: https://linkedin.com/in/avaneexh
 
 ---
